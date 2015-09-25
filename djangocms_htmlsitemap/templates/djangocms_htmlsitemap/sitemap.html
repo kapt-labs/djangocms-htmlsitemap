@@ -1,0 +1,13 @@
+<div id="sitemap">
+	{% for page, info in annotated_pages %}
+		{% if info.open %}
+			<ul><li>
+		{% else %}
+			</li><li>
+		{% endif %}
+		<a href="{{ page.get_absolute_url }}" title="{{ page }}">{{ page }}</a>
+		{% for close in info.close %}
+			</li></ul>
+		{% endfor %}
+	{% endfor %}
+</div>

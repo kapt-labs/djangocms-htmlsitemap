@@ -1,0 +1,24 @@
+language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+env:
+  - DJANGO="django>=1.6,<1.7"
+  - DJANGO="django>=1.7,<1.8"
+  - DJANGO="django>=1.8,<1.9"
+  - TOXENV=lint
+
+matrix:
+  exclude:
+  - python: "3.5"
+    env: DJANGO="django>=1.6,<1.7"
+  - python: "3.5"
+    env: DJANGO="django>=1.7,<1.8"
+install:
+  - "pip install $DJANGO"
+script:
+  - make travis
+after_success:
+  - coveralls

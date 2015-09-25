@@ -1,0 +1,6 @@
+include LICENSE
+include VERSION
+include MANIFEST.in
+include README.rst
+recursive-include djangocms_htmlsitemap/locale *
+global-exclude *.pyc

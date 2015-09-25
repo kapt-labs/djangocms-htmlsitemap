@@ -1,0 +1,13 @@
+django-cms>=3.1
+django
+django-debug-toolbar
+django-treebeard==3.0
+django-sekizai==0.8.2
+django-classy-tags==0.6.2
+djangocms-admin-style==0.2.2
+html5lib==0.999
+six==1.3.0
+Pillow>=2
+django-filer==0.9.9
+cmsplugin-filer==0.10.1
+django-reversion==1.8.5
