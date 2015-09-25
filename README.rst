@@ -2,6 +2,14 @@
 djangocms-htmlsitemap
 =====================
 
+.. image:: http://img.shields.io/travis/kapt-labs/djangocms-htmlsitemap.svg?style=flat-square
+    :target: http://travis-ci.org/kapt-labs/djangocms-htmlsitemap
+    :alt: Build status
+
+.. image:: http://img.shields.io/coveralls/kapt-labs/djangocms-htmlsitemap.svg?style=flat-square
+    :target: https://coveralls.io/r/kapt-labs/djangocms-htmlsitemap
+    :alt: Coveralls status
+
 *A Django CMS plugin for building HTML sitemaps showing organized lists of CMS pages.*
 
 .. contents:: :local:
