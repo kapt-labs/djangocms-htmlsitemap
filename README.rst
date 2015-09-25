@@ -6,8 +6,6 @@ djangocms-htmlsitemap
 
 .. contents:: :local:
 
-.. contents:: :local:
-
 Installation
 -------------
 
