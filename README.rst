@@ -14,6 +14,11 @@ djangocms-htmlsitemap
 
 .. contents:: :local:
 
+Requirements
+------------
+
+Python 2.7+ or 3.3+, Django 1.6+, Django-CMS 3.1+.
+
 Installation
 -------------
 
