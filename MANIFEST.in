@@ -3,4 +3,5 @@ include VERSION
 include MANIFEST.in
 include README.rst
 recursive-include djangocms_htmlsitemap/locale *
+recursive-include djangocms_htmlsitemap *.html
 global-exclude *.pyc
