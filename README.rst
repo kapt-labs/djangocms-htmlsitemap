@@ -2,6 +2,10 @@
 djangocms-htmlsitemap
 =====================
 
+.. image:: http://img.shields.io/pypi/v/djangocms-htmlsitemap.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/djangocms-htmlsitemap/
+    :alt: Latest Version
+
 .. image:: http://img.shields.io/travis/kapt-labs/djangocms-htmlsitemap.svg?style=flat-square
     :target: http://travis-ci.org/kapt-labs/djangocms-htmlsitemap
     :alt: Build status
