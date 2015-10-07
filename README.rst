@@ -62,7 +62,9 @@ If you are using Django 1.6, you should use South 1.0 in order to benefit from t
 Authors
 -------
 
-Kapt and Contributors <dev@kapt.mobi>
+Kapt <dev@kapt.mobi> and contributors_
+
+.. _contributors: https://github.com/kapt-labs/djangocms-htmlsitemap/contributors
 
 License
 -------
