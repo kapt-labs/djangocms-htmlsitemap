@@ -12,8 +12,10 @@ from django.conf import global_settings as default_settings
 
 TEST_ROOT = os.path.abspath(os.path.dirname(__file__))
 
+
 # Helper function to extract absolute path
-location = lambda x: os.path.join(TEST_ROOT, x)
+def location(x):
+    return os.path.join(TEST_ROOT, x)
 
 
 class DisableMigrations(object):
