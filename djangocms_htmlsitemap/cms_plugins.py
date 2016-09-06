@@ -20,7 +20,8 @@ class HtmlSitemapPlugin(CMSPluginBase):
     def render(self, context, instance, placeholder):
         site = Site.objects.get_current()
         pages = Page.objects.public().published(site=site).order_by('path') \
-            .filter(depth__gte=instance.min_depth).distinct()
+            .filter(depth__gte=instance.min_depth, login_required=False) \
+            .distinct()
         if instance.max_depth:
             pages = pages.filter(depth__lte=instance.max_depth)
         if instance.in_navigation is not None:
