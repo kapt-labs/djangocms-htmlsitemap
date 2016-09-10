@@ -7,12 +7,15 @@ python:
 env:
   - DJANGO="django>=1.7,<1.8" CMS="django-cms>=3.1,<3.3"
   - DJANGO="django>=1.8,<1.9" CMS="django-cms>=3.1"
+  - DJANGO="django>=1.9,<1.10" CMS="django-cms>=3.1"
   - TOXENV=lint
 
 matrix:
   exclude:
+  - python: "3.3"
+    env: DJANGO="django>=1.9,<1.10" CMS="django-cms>=3.1"
   - python: "3.5"
-    env: DJANGO="django>=1.7,<1.8"
+    env: DJANGO="django>=1.7,<1.8" CMS="django-cms>=3.1,<3.3"
 install:
   - "pip install setuptools -U"
   - "pip install $DJANGO $CMS"
