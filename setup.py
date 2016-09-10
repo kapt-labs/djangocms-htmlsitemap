@@ -27,7 +27,7 @@ setup(
     long_description=read_relative_file('README.rst'),
     zip_safe=False,
     install_requires=[
-        'django>=1.6',
+        'django>=1.7,<1.10',
         'django-cms>=3.1',
     ],
     classifiers=[
