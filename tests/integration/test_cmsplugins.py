@@ -10,10 +10,12 @@ from cms.api import create_page
 from cms.api import create_title
 from cms.api import publish_page
 from cms.models import Placeholder
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from django.utils.html import strip_spaces_between_tags
 from django.utils.translation import activate
+from django.template import RequestContext
 
 from djangocms_htmlsitemap import cms_plugins
 
@@ -30,8 +32,8 @@ if get_cms_version() >= (3, 4):
 class TestHtmlSitemapPlugin(object):
     @pytest.fixture(autouse=True)
     def setup_cms(self):
-        self.request = RequestFactory()
-        self.request.LANGUAGE_CODE = 'en'
+        # Creates a request
+        self.request = self.get_request()
 
         # Creates a test user
         self.user = User.objects.create(username='testuser', is_active=True, is_superuser=True)
@@ -53,12 +55,27 @@ class TestHtmlSitemapPlugin(object):
         self.depth3_page3 = create_page(
             'Depth 3 page 3', 'simple.html', 'en', in_navigation=False, published=True, parent=self.depth2_page4)
 
+    def get_request(self):
+        factory = RequestFactory()
+
+        if settings.USE_I18N:
+            language = settings.LANGUAGES[0][0]
+        else:
+            language = settings.LANGUAGE_CODE
+
+        request = factory.get('/')
+        request.LANGUAGE_CODE = language
+        request.current_page = None
+        return request
+
     def render_plugin(self, instance):
+        context = RequestContext(self.request, {'request': self.request})
+
         if get_cms_version() >= (3, 4):
             renderer = ContentRenderer(request=self.request)
-            return renderer.render_plugin(instance, {'request': self.request})
+            return renderer.render_plugin(instance, context)
         else:
-            return instance.render_plugin({})
+            return instance.render_plugin(context)
 
     def test_can_render_a_simple_tree_of_cms_pages(self):
         # Setup
