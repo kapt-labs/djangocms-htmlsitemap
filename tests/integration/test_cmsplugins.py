@@ -7,9 +7,13 @@ import pytest
 from cms import __version__
 from cms.api import add_plugin
 from cms.api import create_page
+from cms.api import create_title
+from cms.api import publish_page
 from cms.models import Placeholder
+from django.contrib.auth.models import User
 from django.test.client import RequestFactory
 from django.utils.html import strip_spaces_between_tags
+from django.utils.translation import activate
 
 from djangocms_htmlsitemap import cms_plugins
 
@@ -27,6 +31,10 @@ class TestHtmlSitemapPlugin(object):
     @pytest.fixture(autouse=True)
     def setup_cms(self):
         self.request = RequestFactory()
+        self.request.LANGUAGE_CODE = 'en'
+
+        # Creates a test user
+        self.user = User.objects.create(username='testuser', is_active=True, is_superuser=True)
 
         # Creates a basic tree of CMS pages
         self.index_page = create_page('Index', 'index.html', 'en', published=True, in_navigation=True)  # noq
@@ -58,7 +66,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
         )
 
         # Run
@@ -100,7 +108,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
             min_depth=2,
         )
 
@@ -138,7 +146,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
             max_depth=2,
         )
 
@@ -174,7 +182,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
             min_depth=2,
             max_depth=2,
         )
@@ -206,7 +214,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
             in_navigation=True,
         )
 
@@ -235,7 +243,7 @@ class TestHtmlSitemapPlugin(object):
         model_instance = add_plugin(
             placeholder,
             cms_plugins.HtmlSitemapPlugin,
-            'fr',
+            'en',
             in_navigation=False,
         )
 
@@ -260,6 +268,49 @@ class TestHtmlSitemapPlugin(object):
                             <a href="/depth-2-page-4/" title="Depth 2 page 4">Depth 2 page 4</a>
                             <ul>
                                 <li><a href="/depth-2-page-4/depth-3-page-3/" title="Depth 3 page 3">Depth 3 page 3</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            """).strip()
+
+    def test_can_render_sitemap_in_other_language(self):
+        create_title(
+            'fr', 'Index fr', self.index_page)
+
+        create_title(
+            'fr', 'Niveau 2 Page 1', self.depth2_page1)
+
+        publish_page(self.index_page, self.user, 'fr')
+        publish_page(self.depth2_page1, self.user, 'fr')
+
+        activate('fr')
+        self.request.LANGUAGE_CODE = 'fr'
+
+        # Setup
+        placeholder = Placeholder.objects.create(slot='test')
+        model_instance = add_plugin(
+            placeholder,
+            cms_plugins.HtmlSitemapPlugin,
+            'fr',
+            in_navigation=True,
+        )
+
+        # Run
+        html = self.render_plugin(model_instance)
+        html = strip_spaces_between_tags(html)
+
+        # Check
+        assert html.strip() == strip_spaces_between_tags(
+            """
+                <div id="sitemap">
+                    <ul>
+                        <li>
+                            <a href="/" title="Index fr">Index fr</a>
+                            <ul>
+                                <li>
+                                    <a href="/niveau-2-page-1/" title="Niveau 2 Page 1">Niveau 2 Page 1</a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

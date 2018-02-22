@@ -18,10 +18,13 @@ class HtmlSitemapPlugin(CMSPluginBase):
     render_template = 'djangocms_htmlsitemap/sitemap.html'
 
     def render(self, context, instance, placeholder):
+        request = context['request']
         site = Site.objects.get_current()
         pages = Page.objects.public().published(site=site).order_by('path') \
             .filter(depth__gte=instance.min_depth, login_required=False) \
+            .filter(title_set__language=request.LANGUAGE_CODE) \
             .distinct()
+
         if instance.max_depth:
             pages = pages.filter(depth__lte=instance.max_depth)
         if instance.in_navigation is not None:

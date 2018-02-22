@@ -117,10 +117,10 @@ MEDIA_ROOT = '/media/'
 STATIC_URL = '/static/'
 
 USE_TZ = True
-LANGUAGE_CODE = 'fr'
+LANGUAGE_CODE = 'en'
 LANGUAGES = (
-    ('fr', 'Français'),
     ('en', 'English'),
+    ('fr', 'Français'),
 )
 
 SITE_ID = 1
