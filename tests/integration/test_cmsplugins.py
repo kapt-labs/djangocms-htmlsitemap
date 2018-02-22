@@ -2,21 +2,31 @@
 
 from __future__ import unicode_literals
 
+import pytest
+
+from cms import __version__
 from cms.api import add_plugin
 from cms.api import create_page
 from cms.models import Placeholder
 from django.test.client import RequestFactory
 from django.utils.html import strip_spaces_between_tags
-import pytest
 
 from djangocms_htmlsitemap import cms_plugins
+
+
+def get_cms_version():
+    return tuple(map(lambda i: int(i), __version__.split('.')))
+
+
+if get_cms_version() >= (3, 4):
+    from cms.plugin_rendering import ContentRenderer
 
 
 @pytest.mark.django_db
 class TestHtmlSitemapPlugin(object):
     @pytest.fixture(autouse=True)
     def setup_cms(self):
-        self.request_factory = RequestFactory()
+        self.request = RequestFactory()
 
         # Creates a basic tree of CMS pages
         self.index_page = create_page('Index', 'index.html', 'en', published=True, in_navigation=True)  # noq
@@ -35,6 +45,13 @@ class TestHtmlSitemapPlugin(object):
         self.depth3_page3 = create_page(
             'Depth 3 page 3', 'simple.html', 'en', in_navigation=False, published=True, parent=self.depth2_page4)
 
+    def render_plugin(self, instance):
+        if get_cms_version() >= (3, 4):
+            renderer = ContentRenderer(request=self.request)
+            return renderer.render_plugin(instance, {'request': self.request})
+        else:
+            return instance.render_plugin({})
+
     def test_can_render_a_simple_tree_of_cms_pages(self):
         # Setup
         placeholder = Placeholder.objects.create(slot='test')
@@ -45,7 +62,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check
@@ -88,7 +105,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check
@@ -126,7 +143,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check
@@ -163,7 +180,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check
@@ -194,7 +211,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check
@@ -223,7 +240,7 @@ class TestHtmlSitemapPlugin(object):
         )
 
         # Run
-        html = model_instance.render_plugin({})
+        html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
         # Check

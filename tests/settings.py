@@ -23,7 +23,10 @@ class DisableMigrations(object):
         return True
 
     def __getitem__(self, item):
-        return 'notmigrations'
+        if DJANGO_VERSION >= (1, 9):
+            return
+        else:
+            return 'notmigrations'
 
 
 DEBUG = False
