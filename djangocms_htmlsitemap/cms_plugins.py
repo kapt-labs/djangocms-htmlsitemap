@@ -40,7 +40,7 @@ class HtmlSitemapPlugin(CMSPluginBase):
 
         if DJANGO_CMS_35:
             from cms.models.pagemodel import TreeNode
-            nodes = [page.node for page in pages]
+            nodes = [page.node for page in pages.select_related('node')]
             annotated_nodes = TreeNode.get_annotated_list_qs(nodes)
             annotated_pages = [(pages[x], annotated_nodes[x][1]) for x in range(0, len(nodes))]
         else:
