@@ -98,7 +98,6 @@ class TestHtmlSitemapPlugin(object):
         html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
-        print(html.strip())
         # Check
         assert html.strip() == strip_spaces_between_tags(
             """
