@@ -8,7 +8,7 @@ from cms.models.pagemodel import Page
 from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 
-from djangocms_htmlsitemap.compat import DJANGO_CMS_35
+from .compat import DJANGO_CMS_35
 from .models import HtmlSitemapPluginConf
 
 
@@ -26,7 +26,7 @@ class HtmlSitemapPlugin(CMSPluginBase):
         node_column = 'node__depth' if DJANGO_CMS_35 else 'depth'
 
         pages = Page.objects.public().published(site=site).order_by(path_column) \
-            .filter(**{node_column + '__gte': instance.min_depth}, login_required=False) \
+            .filter(login_required=False, **{node_column + '__gte': instance.min_depth}) \
             .filter(title_set__language=request.LANGUAGE_CODE) \
             .distinct()
 
