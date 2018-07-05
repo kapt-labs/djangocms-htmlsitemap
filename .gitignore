@@ -12,3 +12,5 @@ public/
 .tox
 tests/_testdata/media/
 .cache/
+.idea/
+.pytest_cache/

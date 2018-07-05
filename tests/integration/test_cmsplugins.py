@@ -40,6 +40,14 @@ class TestHtmlSitemapPlugin(object):
 
         # Creates a basic tree of CMS pages
         self.index_page = create_page('Index', 'index.html', 'en', published=True, in_navigation=True)  # noq
+
+        try:
+            # django-cms 3.5+
+            self.index_page.set_as_homepage()
+        except AttributeError:
+            # django-cms < 3.5 defaults the first page as being the home page
+            pass
+
         self.depth2_page1 = create_page(
             'Depth 2 page 1', 'simple.html', 'en', in_navigation=True, published=True, parent=self.index_page)
         self.depth2_page2 = create_page(
@@ -90,6 +98,7 @@ class TestHtmlSitemapPlugin(object):
         html = self.render_plugin(model_instance)
         html = strip_spaces_between_tags(html)
 
+        print(html.strip())
         # Check
         assert html.strip() == strip_spaces_between_tags(
             """

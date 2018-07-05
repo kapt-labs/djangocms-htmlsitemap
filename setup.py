@@ -28,7 +28,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'django>=1.7,<2',
-        'django-cms>=3.1,<3.5',
+        'django-cms>=3.1,<3.6',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
