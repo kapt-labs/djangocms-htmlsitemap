@@ -20,6 +20,7 @@ class HtmlSitemapPlugin(CMSPluginBase):
 
     def render(self, context, instance, placeholder):
         request = context['request']
+        language = request.toolbar.language if DJANGO_CMS_35 else request.LANGUAGE_CODE
         site = Site.objects.get_current()
 
         path_column = 'node__path' if DJANGO_CMS_35 else 'path'
@@ -27,7 +28,7 @@ class HtmlSitemapPlugin(CMSPluginBase):
 
         pages = Page.objects.public().published(site=site).order_by(path_column) \
             .filter(login_required=False, **{node_column + '__gte': instance.min_depth}) \
-            .filter(title_set__language=request.LANGUAGE_CODE) \
+            .filter(title_set__language=language) \
             .distinct()
 
         if instance.max_depth:
