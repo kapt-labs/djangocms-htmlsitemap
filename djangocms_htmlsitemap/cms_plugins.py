@@ -20,10 +20,7 @@ class HtmlSitemapPlugin(CMSPluginBase):
 
     def render(self, context, instance, placeholder):
         request = context['request']
-        if DJANGO_CMS_35 and hasattr(request, 'toolbar'):
-            language = request.toolbar.language
-        else:
-            language = request.LANGUAGE_CODE
+        language = request.LANGUAGE_CODE
 
         site = Site.objects.get_current()
 

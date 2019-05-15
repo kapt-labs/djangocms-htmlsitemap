@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HtmlSitemapPluginConf',
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin', on_delete=models.SET_NULL)),
                 ('min_depth', models.PositiveIntegerField(default=0, verbose_name='Minimum depth')),
                 ('max_depth', models.PositiveIntegerField(null=True, verbose_name='Maximum depth', blank=True)),
                 ('in_navigation', models.NullBooleanField(default=None, verbose_name='In navigation')),
