@@ -1,28 +1,49 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('cms', '0011_auto_20150419_1006'),
-    ]
+    dependencies = [("cms", "0011_auto_20150419_1006")]
 
     operations = [
         migrations.CreateModel(
-            name='HtmlSitemapPluginConf',
+            name="HtmlSitemapPluginConf",
             fields=[
-                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin', on_delete=models.SET_NULL)),
-                ('min_depth', models.PositiveIntegerField(default=0, verbose_name='Minimum depth')),
-                ('max_depth', models.PositiveIntegerField(null=True, verbose_name='Maximum depth', blank=True)),
-                ('in_navigation', models.NullBooleanField(default=None, verbose_name='In navigation')),
+                (
+                    "cmsplugin_ptr",
+                    models.OneToOneField(
+                        parent_link=True,
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="cms.CMSPlugin",
+                        on_delete=models.SET_NULL,
+                    ),
+                ),
+                (
+                    "min_depth",
+                    models.PositiveIntegerField(
+                        default=0, verbose_name="Minimum depth"
+                    ),
+                ),
+                (
+                    "max_depth",
+                    models.PositiveIntegerField(
+                        null=True, verbose_name="Maximum depth", blank=True
+                    ),
+                ),
+                (
+                    "in_navigation",
+                    models.NullBooleanField(default=None, verbose_name="In navigation"),
+                ),
             ],
             options={
-                'verbose_name': 'HTML Sitemap plugin configuration',
-                'verbose_name_plural': 'HTML Sitemap plugin configurations',
+                "verbose_name": "HTML Sitemap plugin configuration",
+                "verbose_name_plural": "HTML Sitemap plugin configurations",
             },
-            bases=('cms.cmsplugin',),
-        ),
+            bases=("cms.cmsplugin",),
+        )
     ]
