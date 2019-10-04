@@ -14,7 +14,7 @@ def read_relative_file(filename):
 
 setup(
     name="djangocms-htmlsitemap",
-    version="0.5.0",
+    version="0.6.0",
     author="Kapt",
     author_email="dev@kapt.mobi",
     packages=find_packages(),
